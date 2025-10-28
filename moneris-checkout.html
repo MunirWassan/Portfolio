@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<!--
+	Telephasic by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+                <title>Moneris Checkout Demo</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="no-sidebar is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper">
+					<div id="header" class="container">
+
+						<!-- Logo -->
+							<h1 id="logo"><a href="index.html">Telephasic</a></h1>
+
+						<!-- Nav -->
+							<nav id="nav">
+								<ul>
+									<li>
+										<a href="#">Dropdown</a>
+										<ul>
+											<li><a href="#">Lorem ipsum dolor</a></li>
+											<li><a href="#">Magna phasellus</a></li>
+											<li><a href="#">Etiam dolore nisl</a></li>
+											<li>
+												<a href="#">Phasellus consequat</a>
+												<ul>
+													<li><a href="#">Lorem ipsum dolor</a></li>
+													<li><a href="#">Phasellus consequat</a></li>
+													<li><a href="#">Magna phasellus</a></li>
+													<li><a href="#">Etiam dolore nisl</a></li>
+												</ul>
+											</li>
+											<li><a href="#">Veroeros feugiat</a></li>
+										</ul>
+									</li>
+									<li><a href="left-sidebar.html">Left Sidebar</a></li>
+									<li class="break"><a href="right-sidebar.html">Right Sidebar</a></li>
+                                                                        <li><a href="no-sidebar.html">No Sidebar</a></li>
+                                                                        <li><a href="moneris-checkout.html">Moneris Demo</a></li>
+								</ul>
+							</nav>
+
+					</div>
+				</div>
+
+			<!-- Main -->
+				<div class="wrapper">
+					<div class="container" id="main">
+
+						<!-- Content -->
+                                                        <article id="content" class="moneris-guide">
+                                                                <header>
+                                                                        <h2>Moneris Checkout &amp; Hosted Tokenization Demo</h2>
+                                                                        <p>Use this page to spin up a QA payment session against Moneris using
+                                                                        their hosted solutions and capture the responses returned to your site.</p>
+                                                                </header>
+
+                                                                <section>
+                                                                        <h3>1. Configure your API credentials</h3>
+                                                                        <p>Store your <strong>store ID</strong> and <strong>API token</strong> as environment variables on the server that will
+                                                                        call Moneris. The sample Express server in <code>server/moneris-checkout-server.js</code>
+                                                                        expects <code>MONERIS_STORE_ID</code>, <code>MONERIS_API_TOKEN</code>, and optionally
+                                                                        <code>MONERIS_ENV</code> (defaults to <code>qa</code>).</p>
+                                                                </section>
+
+                                                                <section>
+                                                                        <h3>2. Start the demo helper API</h3>
+                                                                        <p>Install dependencies with <code>npm install</code> and start the sample server with
+                                                                        <code>npm run moneris:server</code>. The server hosts this page on
+                                                                        <code>http://localhost:5174/moneris-checkout.html</code> and exposes a
+                                                                        <code>POST /api/moneris/checkout</code> endpoint that proxies the <em>Create Checkout</em>
+                                                                        request documented by Moneris. Update the payload or headers there if you need to
+                                                                        add optional fields such as billing details.</p>
+                                                                </section>
+
+                                                                <section>
+                                                                        <h3>3. Launch Moneris Checkout from this page</h3>
+                                                                        <p>Enter the amount you want to authorize and click <em>Request Checkout Session</em>.
+                                                                        The helper API returns a checkout ID that the Moneris JavaScript SDK uses to
+                                                                        open the hosted experience. When the payment flow finishes the page logs the
+                                                                        response payloads below.</p>
+
+                                                                        <form id="moneris-options" class="moneris-form">
+                                                                                <div class="row gtr-50">
+                                                                                        <div class="col-4 col-12-mobile">
+                                                                                                <label for="purchase-amount">Amount (CAD)</label>
+                                                                                                <input id="purchase-amount" name="amount" type="number" step="0.01" min="0.01" value="10.00" required />
+                                                                                        </div>
+                                                                                        <div class="col-4 col-12-mobile">
+                                                                                                <label for="purchase-order">Order ID</label>
+                                                                                                <input id="purchase-order" name="orderId" type="text" placeholder="demo-order-001" required />
+                                                                                        </div>
+                                                                                        <div class="col-4 col-12-mobile">
+                                                                                                <label for="transaction-type">Transaction Type</label>
+                                                                                                <select id="transaction-type" name="transactionType">
+                                                                                                        <option value="purchase" selected>Purchase</option>
+                                                                                                        <option value="preauth">Pre-authorization</option>
+                                                                                                </select>
+                                                                                        </div>
+                                                                                </div>
+                                                                                <ul class="actions">
+                                                                                        <li><button type="submit" class="button primary">Request Checkout Session</button></li>
+                                                                                        <li><button id="launch-checkout" type="button" class="button" disabled>Launch Moneris Checkout</button></li>
+                                                                                </ul>
+                                                                        </form>
+
+                                                                        <div class="moneris-status">
+                                                                                <h4>Status</h4>
+                                                                                <pre id="moneris-status"></pre>
+                                                                        </div>
+
+                                                                        <div class="moneris-status">
+                                                                                <h4>Moneris Events</h4>
+                                                                                <pre id="moneris-events"></pre>
+                                                                        </div>
+                                                                </section>
+
+                                                                <section>
+                                                                        <h3>4. Hosted tokenization example</h3>
+                                                                        <p>The button below mounts the Moneris Hosted Tokenization iframe so you can
+                                                                        capture card data without it touching your servers. Replace the <code>data-moneris-tokenization-id</code>
+                                                                        attribute with the tokenization profile created in the Moneris Merchant Resource
+                                                                        Center.</p>
+
+                                                                        <div class="moneris-tokenization">
+                                                                                <button id="load-tokenizer" class="button">Load hosted tokenization</button>
+                                                                                <div id="moneris-tokenizer" data-moneris-tokenization-id="REPLACE_WITH_PROFILE_ID"></div>
+                                                                                <pre id="tokenization-output"></pre>
+                                                                        </div>
+                                                                </section>
+                                                        </article>
+					</div>
+				</div>
+
+			<!-- Footer -->
+                                <div id="footer-wrapper">
+                                        <div id="footer" class="container">
+                                                <header class="major">
+                                                        <h2>Need additional fields?</h2>
+                                                        <p>Consult the Moneris documentation to add billing information, 3-D Secure, or recurring
+                                                        payment parameters. Extend <code>assets/js/moneris-checkout.js</code> and the helper server to
+                                                        include those fields before requesting a checkout session.</p>
+                                                </header>
+                                        </div>
+                                </div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+                        <script src="assets/js/util.js"></script>
+                        <script src="assets/js/main.js"></script>
+                        <script src="https://gateway.moneris.com/chkt/js/chkt_v1.00.js" defer></script>
+                        <script src="https://gateway.moneris.com/chkt/js/hostedtokenization_v1.00.js" defer></script>
+                        <script src="assets/js/moneris-checkout.js" defer></script>
+
+        </body>
+</html>
