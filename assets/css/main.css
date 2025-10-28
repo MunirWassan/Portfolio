@@ -3068,3 +3068,35 @@ input, select, textarea {
 			}
 
 	}
+/* Moneris demo tweaks */
+.moneris-guide .moneris-form label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.35rem;
+}
+
+.moneris-guide .moneris-form input,
+.moneris-guide .moneris-form select {
+        width: 100%;
+}
+
+.moneris-guide pre {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 0.35rem;
+        padding: 1rem;
+        overflow-x: auto;
+        font-family: "Source Code Pro", monospace;
+        font-size: 0.9rem;
+}
+
+.moneris-guide .moneris-status {
+        margin-top: 1.5rem;
+}
+
+.moneris-tokenization {
+        margin-top: 1.5rem;
+}
+
+.moneris-tokenization button {
+        margin-bottom: 1rem;
+}
